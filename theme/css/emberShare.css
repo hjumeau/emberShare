@@ -1,0 +1,25 @@
+h2 {
+	color: #f24730;
+	font-family: 'Lobster Two', 'cursive';
+	text-shadow: 1px 1px rgba(0,0,0,0.5);
+}
+
+.scrollable { display: block; }
+
+.scrollable {
+    height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.auto-fadein h2 {
+	font-family: 'Open Sans', Arial, sans-serif;
+}
+
+slides > slide:not(.nobackground):before {
+  background: none;
+}
+
+.title-slide hgroup p {
+	margin-top: 0px;
+}

@@ -339,7 +339,7 @@ ryan.say("Yes"); // alert "CodeOfficier say: Yes, sir!"
       <h2>Framework MVC*</h2>
     </hgroup>
     <article class="flexbox vcenter">
-      <img src="http://www.smashingmagazine.com/wp-content/uploads/2013/09/ember-sketch.png" alt="Model MVC* Ember" title="MVC*">
+      <img src="images/ember-sketch.png" alt="Model MVC* Ember" title="MVC*">
       <footer class="source"><a href:"http://www.smashingmagazine.com/2013/11/07/an-in-depth-introduction-to-ember-js"/>source</a></footer>
     </article>
   </slide>
@@ -413,7 +413,7 @@ App.ApplicationController = Ember.Controller.extend({
     <hgroup>
       <h2>Template</h2>
     </hgroup>
-    <article>
+    <article class="smaller">
 		<p><a href="http://emberjs.com/guides/templates/conditionals/">http://emberjs.com/guides/templates/conditionals/</a></p>
 		<pre class="prettyprint" data-lang="handlebars">
 {{#if person}}
@@ -430,6 +430,46 @@ App.ApplicationController = Ember.Controller.extend({
   {{/each}}
 &lt;/ul&gt;
 	  </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Template</h2>
+    </hgroup>
+    <article class="smaller">
+    <p><a href="http://emberjs.com/guides/templates/binding-element-attributes/">http://emberjs.com/guides/templates/binding-element-attributes/</a></p>
+    <pre class="prettyprint" data-lang="handlebars">
+&lt;input type="checkbox" {{bind-attr disabled=isAdministrator}}&gt;
+    </pre>
+    <p>isAdministrator is true</p>
+    <pre class="prettyprint" data-lang="html">
+&lt;input type="checkbox" disabled&gt;
+    </pre>
+    <p>isAdministrator is false</p>
+    <pre class="prettyprint" data-lang="html">
+&lt;input type="checkbox" &gt;
+    </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Template</h2>
+    </hgroup>
+    <article class="smaller">
+    <p><a href="http://emberjs.com/guides/templates/binding-element-class-names/">http://emberjs.com/guides/templates/binding-element-class-names/</a></p>
+    <pre class="prettyprint" data-lang="handlebars">
+&lt;div {{bind-attr class="priority"}}&gt;
+  Warning!
+&lt;/div&gt;
+    </pre>
+    <p>controller's priority property is "p4"</p>
+    <pre class="prettyprint" data-lang="html">
+&lt;div class="p4"&gt;
+  Warning!
+&lt;/div&gt;
+    </pre>
     </article>
   </slide>
   
@@ -587,16 +627,94 @@ App.PhotoRoute = Ember.Route.extend({
   <slide>
     <hgroup>
       <h2>View</h2>
+      <h3>Insérer une vue dans un Template</h3>
     </hgroup>
-    <article>
+    <article class="smaller">
+      <pre class="prettyprint" data-lang="javascript">
+// Define parent view
+App.UserView = Ember.View.extend({
+  templateName: 'user',
+
+  firstName: "Albert",
+  lastName: "Hofmann"
+});
+
+// Define child view
+App.InfoView = Ember.View.extend({
+  templateName: 'info',
+
+  posts: 25,
+  hobbies: "Riding bicycles"
+});
+      </pre> 
+      <pre class="prettyprint" data-lang="html">
+&lt;script type="text/x-handlebars" data-template-name="user"&gt;
+  User: {{view.firstName}} {{view.lastName}}
+  {{view "info"}}
+&lt;/script&gt;
+      </pre> 
     </article>
   </slide>
   
   <slide>
     <hgroup>
+      <h2>View</h2>
+      <h3>Handling Event</h3>
+    </hgroup>
+    <article class="smaller">
+      <pre class="prettyprint" data-lang="javascript">
+App.PlaybackRoute = Ember.Route.extend({
+  actions: {
+    turnItUp: function(level){
+      //This won't be called if it's defined on App.PlaybackController
+    }
+  }
+});
+      </pre> 
+      <pre class="prettyprint" data-lang="javascript">
+App.PlaybackController = Ember.ObjectController.extend({
+  actions: {
+    turnItUp: function(level){
+      //Do your thing
+    }
+  }
+});
+      </pre> 
+      <pre class="prettyprint" data-lang="javascript">
+App.ClickableView = Ember.View.extend({
+  click: function(evt) {
+    this.get('controller').send('turnItUp', 11);
+  }
+});
+      </pre> 
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
       <h2>Controller</h2>
     </hgroup>
-    <article>
+    <article class="smaller">
+    <p><a href="http://emberjs.com/guides/controllers/representing-a-single-model-with-objectcontroller/">http://emberjs.com/guides/controllers/representing-a-single-model-with-objectcontroller/</a></p>  
+    <pre class="prettyprint" data-lang="javascript">
+App.SongController = Ember.ObjectController.extend({
+  soundVolume: 1
+});
+
+App.SongRoute = Ember.Route.extend({
+  setupController: function(controller, song) {
+    controller.set('model', song);
+  }
+});
+    </pre>  
+    <pre class="prettyprint" data-lang="html">
+&lt;p&gt;
+  &lt;strong&gt;Song&lt;/strong&gt;: {{name}} by {{artist}}
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;strong&gt;Current Volume&lt;/strong&gt;: {{soundVolume}}
+&lt;/p&gt;
+    </pre>  
     </article>
   </slide>
 
