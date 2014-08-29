@@ -1,7 +1,7 @@
 var SLIDE_CONFIG = {
   // Slide settings
   settings: {
-    title: 'Ember',
+    //title: 'Ember',
     subtitle: 'Un framework MVC Javascript',
     //eventInfo: {
     //  title: 'Google I/O',
@@ -15,6 +15,7 @@ var SLIDE_CONFIG = {
     favIcon: 'images/nov_logo.jpg',
     fonts: [
       'Open Sans:regular,semibold,italic,italicsemibold',
+	  'Lobster+Two:700,400',
       'Source Code Pro'
     ],
     //theme: ['mytheme'], // Add your own custom themes or styles in /theme/css. Leave off the .css extension.

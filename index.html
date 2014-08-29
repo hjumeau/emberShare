@@ -27,7 +27,6 @@
     </article>
     <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
     <hgroup class="auto-fadein">
-      <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
     </hgroup>
@@ -39,14 +38,9 @@
     </hgroup>
     <article>
       <ul>
-        <li>Titles are formatted as Open Sans with bold applied and font size is set at 45</li>
-        <li>Title capitalization is title case
-          <ul>
-            <li>Subtitle capitalization is title case</li>
-          </ul>
-        </li>
-        <li>Subtitle capitalization is title case</li>
-        <li>Titles and subtitles should never have a period at the end</li>
+        <li>Un Framework Javascript MVC</li>
+        <li>Open source créé en décembre 2011</li>
+        <li>Conçu pour développer des Single-Page-Application</li>
       </ul>
     </article>
   </slide>
@@ -57,33 +51,446 @@
     </hgroup>
     <article>
       <ul>
-        <li>Pressing 'h' highlights code snippets</li>
-        <li>Pressing 'p' toggles speaker notes (if they're on the current slide)</li>
-        <li>Pressing 'f' toggles fullscreen viewing</li>
-        <li>Pressing 'w' toggles widescreen</li>
-        <li>Pressing 'o' toggles overview mode</li>
-        <li>Pressing 'ESC' toggles off these goodies</li>
+        <li>Ultra complet (tout ce dont vouz auriez besion et là !)</li>
+        <li>Architecture strict pour un code réutilisable et clair</li>
+		<li>Convention plutôt que configuration</li>
+		<li>Hautement productif</li>
       </ul>
     </article>
   </slide>
 
   <slide>
     <hgroup>
-      <h2>Un Framework MVC</h2>
+      <h2>Concepts de base</h2>
     </hgroup>
-    <article class="smaller">
+    <article>
       <ul>
-        <li>All <a href="http://google.com">links</a> open in new tabs.</li>
-        <li>To change that this, add <code>target="_self"</code> to the link.</li>
+        <li>Application</li>
+        <li>Run loop</li>
+		<li>Model Object</li>
+        <li>Template</li>
+        <li>MVC*</li>
+        <li>Container</li>
       </ul>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Application</h2>
+    </hgroup>
+    <article>
+	  <p><a href="http://emberjs.com/guides/application/">http://emberjs.com/guides/application/</a></p>
+	  <pre class="prettyprint" data-lang="javascript">
+window.App = Ember.Application.create();
+	  </pre>
+      <ul>
+		<li>Crée un namespace</li>
+		<li>Ajoute des event listeners au DOM</li>
+		<li>Insert les templates de l'application dans le DOM</li>
+		<li>Crée un router et commence le routing</li>
+      </ul>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Run loop</h2>
+    </hgroup>
+    <article>
+	  <p><a href="http://talks.erikbryn.com/backburner.js-and-the-ember-run-loop"/>http://talks.erikbryn.com/backburner.js-and-the-ember-run-loop/</a></p>
+      <ul>
+        <li>sync -> synchronisation bindings</li>
+        <li>actions -> app actions</li>
+        <li>render -> Ember's DOM-related changes</li>
+        <li>afterRender -> </li>
+        <li>destroy -> object destruction</li>
+      </ul>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Objet Basic</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Classes et Instances</li>
+        <li>Computed Properties</li>
+        <li>Bindings</li>
+        <li>Observers</li>
+      </ul>
+    </article>
+  </slide>
+  
+  <slide>
+	<aside class="note smaller">
+      <section>
+        <ul>
+          <li>Object.extend for single inheritance (mixins exits as well)</li>
+          <li>Object.create instead of new for instances</li>
+          <li>this._super() calls overridden implementation</li>
+          <li>Object.reopen() to edit class definition</li>
+          <li>Object.reopenClass to modify static members</li>
+        </ul>
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Classes et Instances</h2>
+    </hgroup>
+    <article class="smaller">
+		<p><a href="http://emberjs.com/api/classes/Ember.Object.html">http://emberjs.com/api/classes/Ember.Object.html</a></p>	
+		<pre class="prettyprint" data-lang="javascript">
+App.Person = Ember.Object.extend({
+	say: function(msg) {
+		alert(msg);
+	}
+});
+
+App.Soldier = App.Person.extend({
+	say: function(msg) {
+		this._super(msg + " , sir!");
+	}
+});
+
+var ryan = App.Soldier.create({});
+
+ryan.say("Yes"); // alert "Yes, sir!"
+	  </pre>
+    </article>
+  </slide>
+  
+  <slide>
+	<aside class="note">
+      <section>
+        <ul>
+          <li>object.get("key") and object.set("key", value)</li>
+          <li>Object.create instead of new for instances</li>
+          <li>this._super() calls overridden implementation</li>
+          <li>Object.reopen() to edit class definition</li>
+          <li>Object.reopenClass to modify static members</li>
+        </ul>
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Getter/Setter</h2>
+    </hgroup>
+    <article class="smaller">
+		<pre class="prettyprint" data-lang="javascript">
+var Person = Ember.Object.extend({
+	say: function() {
+		var name = this.get('name');
+		alert(name + "say: " + thing);
+	}
+});
+
+var Soldier = Person.extend({
+	say: function(thing) {
+		this._super(thing + " , sir!");
+	}
+});
+
+var ryan = Soldier.create({
+	//name: "CodeOfficier"  On peut aussi!
+});
+
+ryan.set(name, "CodeOfficier");
+ryan.say("Yes"); // alert "CodeOfficier say: Yes, sir!"
+	  </pre>
+    </article>
+  </slide>
+  
+    <slide>
+	<aside class="note">
+      <section>
+        <ul>
+          <li>object.get("key") and object.set("key", value)</li>
+          <li>Object.create instead of new for instances</li>
+          <li>this._super() calls overridden implementation</li>
+          <li>Object.reopen() to edit class definition</li>
+          <li>Object.reopenClass to modify static members</li>
+        </ul>
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Computed Properties</h2>
+    </hgroup>
+    <article class="smaller">
+		<pre class="prettyprint" data-lang="javascript">
+var Person = Ember.Object.extend({
+	say: function() {
+		var name = this.get('name');
+		alert(name + "say: " + thing);
+	}
+});
+
+var Soldier = Person.extend({
+	say: function(thing) {
+		this._super(thing + " , sir!");
+	}
+});
+
+var ryan = Soldier.create({
+	//name: "CodeOfficier"  On peut aussi!
+});
+
+ryan.set(name, "CodeOfficier");
+ryan.say("Yes"); // alert "CodeOfficier say: Yes, sir!"
+	  </pre>
+    </article>
+  </slide>
+  
+    <slide>
+	<aside class="note">
+      <section>
+        <ul>
+          <li>object.get("key") and object.set("key", value)</li>
+          <li>Object.create instead of new for instances</li>
+          <li>this._super() calls overridden implementation</li>
+          <li>Object.reopen() to edit class definition</li>
+          <li>Object.reopenClass to modify static members</li>
+        </ul>
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Observers</h2>
+    </hgroup>
+    <article class="smaller">
+		<pre class="prettyprint" data-lang="javascript">
+var Person = Ember.Object.extend({
+	say: function() {
+		var name = this.get('name');
+		alert(name + "say: " + thing);
+	}
+});
+
+var Soldier = Person.extend({
+	say: function(thing) {
+		this._super(thing + " , sir!");
+	}
+});
+
+var ryan = Soldier.create({
+	//name: "CodeOfficier"  On peut aussi!
+});
+
+ryan.set(name, "CodeOfficier");
+ryan.say("Yes"); // alert "CodeOfficier say: Yes, sir!"
+	  </pre>
+    </article>
+  </slide>
+  
+    <slide>
+	<aside class="note">
+      <section>
+        <ul>
+          <li>object.get("key") and object.set("key", value)</li>
+          <li>Object.create instead of new for instances</li>
+          <li>this._super() calls overridden implementation</li>
+          <li>Object.reopen() to edit class definition</li>
+          <li>Object.reopenClass to modify static members</li>
+        </ul>
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Bindings</h2>
+    </hgroup>
+    <article class="smaller">
+		<pre class="prettyprint" data-lang="javascript">
+var Person = Ember.Object.extend({
+	say: function() {
+		var name = this.get('name');
+		alert(name + "say: " + thing);
+	}
+});
+
+var Soldier = Person.extend({
+	say: function(thing) {
+		this._super(thing + " , sir!");
+	}
+});
+
+var ryan = Soldier.create({
+	//name: "CodeOfficier"  On peut aussi!
+});
+
+ryan.set(name, "CodeOfficier");
+ryan.say("Yes"); // alert "CodeOfficier say: Yes, sir!"
+	  </pre>
+    </article>
+  </slide>
+  
+    <slide>
+    <hgroup>
+      <h2>Prototype Extensions</h2>
+    </hgroup>
+    <article>
+		<p>Par default Ember surcharge les prototypes de ces object natif Javascript :</p>
+		<ul>
+			<li>Array</li>
+			<li>String</li>
+			<li>Function</li>
+		</ul>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Framework MVC*</h2>
+    </hgroup>
+    <article class="flexbox vcenter">
+      <img src="http://www.smashingmagazine.com/wp-content/uploads/2013/09/ember-sketch.png" alt="Model MVC* Ember" title="MVC*">
+      <footer class="source"><a href:"http://www.smashingmagazine.com/2013/11/07/an-in-depth-introduction-to-ember-js"/>source</a></footer>
     </article>
   </slide>
 
   <slide>
+	<aside class="note">
+      <section>
+		<a href="http://jsonapi.org/format/"/>http://jsonapi.org/format/</a>
+      </section>
+    </aside>
     <hgroup>
-      <h2>Convention plutôt que la configuration</h2>
+      <h2>Model</h2>
+	  <h3>(Ember-Data)</h3>
     </hgroup>
     <article class="smaller">
+		<p> Une couche d’abstraction de stockage de donnés pour simplifier la récupération, la mise à jour et la persistence des données</p>
+		<p><a href="http://emberjs.com/guides/models/">http://emberjs.com/guides/models/</a></p>
+		<pre class="prettyprint" data-lang="javascript">
+App.Person = DS.Model.extend({   // person -> App.Person
+	firstName: DS.attr('string'),
+	lastName: DS.attr('string'),
+	
+	fullName: function() {
+		return this.get('firstName') + ' ' + this.get('lastName');
+	}.property('firstName', 'lastName')
+});
+
+this.store.createRecord('person',{firstName: 'James Francis', lastName: 'Ryan'}); // POST + json
+var ryan = this.store.find('person', 1); // => GET /posts/1
+
+ryan.get(fullName); // James Francis Ryan
+	  </pre>
+    </article>
+  </slide>
+  
+    <slide>
+    <hgroup>
+      <h2>Template</h2>
+    </hgroup>
+    <article>
+		<ul>
+			<li><a href="http://handlebarsjs.com/">http://handlebarsjs.com/</a></li>
+			<li><a href="http://emblemjs.com/">http://emblemjs.com/ (HAML in JS)</a></li>
+			<li>Bound to a context</li>
+			<li>Contain HTML and {{expression}}</li>
+		</ul>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Template</h2>
+    </hgroup>
+    <article>
+		<pre class="prettyprint" data-lang="javascript">
+App.ApplicationController = Ember.Controller.extend({
+  firstName: "Trek",
+  lastName: "Glowacki"
+});
+	  </pre>
+	  <pre class="prettyprint" data-lang="handlebars">
+&lt;p&gt;Hello, &lt;strong&gt;{{firstName}} {{lastName}}&lt;/strong&gt;!&lt;/p&gt;
+	  </pre>
+	  <pre class="prettyprint" data-lang="html">
+&lt;p&gt;Hello, &lt;strong&gt;Trek Glowacki&lt;/strong&gt;!&lt;/p&gt;
+	  </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Template</h2>
+    </hgroup>
+    <article>
+		<p><a href="http://emberjs.com/guides/templates/conditionals/">http://emberjs.com/guides/templates/conditionals/</a></p>
+		<pre class="prettyprint" data-lang="handlebars">
+{{#if person}}
+  Welcome back, &lt;b&gt;{{person.firstName}} {{person.lastName}}&lt;/b&gt;!
+{{else}}
+  Please log in.
+{{/if}}
+	  </pre>
+	  <p><a href="http://emberjs.com/guides/templates/displaying-a-list-of-items/">http://emberjs.com/guides/templates/displaying-a-list-of-items/</a></p>
+		<pre class="prettyprint" data-lang="handlebars">
+&lt;ul&gt;
+  {{#each people}}
+    &lt;li&gt;Hello, {{name}}!&lt;/li&gt;
+  {{/each}}
+&lt;/ul&gt;
+	  </pre>
+    </article>
+  </slide>
+  
+   <slide>
+    <hgroup>
+      <h2>Router</h2>
+    </hgroup>
+    <article>
+		<p><a href="http://emberjs.com/guides/routing/"/>http://emberjs.com/guides/routing/</a></p>
+		<ul>
+			<li>Translate a URL into a series of nested templates, each backed by a model</li>
+			<li>Represents Application state as a URL</li>
+			<li>Update the controllers</li>
+		</ul>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Router</h2>
+      <h3 class="smaller">Location API => hash / history.pushState / none</h3>
+    </hgroup>
+    <article class="smaller">
+		<pre class="prettyprint" data-lang="javascript">
+/*  /#/posts/new => posts.new route  */	
+App.Router.map(function() {
+  this.resource('posts', function() {
+    this.route('new');
+  });
+});
+
+/*  /posts/new  */
+App.Router.reopen({
+  location: 'history'
+});
+
+/*  none  */
+App.Router.reopen({
+  location: 'none'
+});
+		</pre>	
+    </article>
+  </slide>
+  
+    <slide>
+    <hgroup>
+      <h2>Router</h2>	
+	  <h3>Defininig yours route</h3>	
+    </hgroup>
+    <article class="even smaller">
+		<p><a href="http://emberjs.com/guides/routing/defining-your-routes/">http://emberjs.com/guides/routing/defining-your-routes/</a></p>
+		<pre class="prettyprint" data-lang="javascript">
+App.Router.map(function() {
+  this.resource('post', { path: '/post/:post_id' }, function() {
+    this.route('edit');
+    this.resource('comments', function() {
+      this.route('new');
+    });
+  });
+});
+</pre>	
       <table>
         <thead>
         <tr>
@@ -147,261 +554,70 @@
       </table>
     </article>
   </slide>
-
+  
   <slide>
     <hgroup>
-      <h2>Code Slide (Smaller Font)</h2>
+      <h2>Route</h2>
     </hgroup>
     <article class="smaller">
-      <pre class="prettyprint" data-lang="javascript">
-// Say hello world until the user starts questioning
-// the meaningfulness of their existence.
-function helloWorld(world) {
-  for (var i = 42; --i &gt;= 0;) {
-    alert('Hello ' + String(world));
+		<pre class="prettyprint" data-lang="javascript">
+App.Router.map(function() {
+  this.resource('photo', { path: '/photos/:photo_id' });
+});
+
+App.PhotoRoute = Ember.Route.extend({
+  model: function(params) {
+    return Ember.$.getJSON('/photos/'+params.photo_id);
+  },
+  setupController: function(controller, model) {
+    controller.set('model', model);
+  },
+  renderTemplate: function() {
+    this.render('favoritePost', {   // the template to render
+      into: 'posts',                // the template to render into
+      outlet: 'posts',              // the name of the outlet in that template
+      controller: 'blogPost'        // the controller to use for the template
+    });
   }
-}
-</pre>
-<pre class="prettyprint" data-lang="css">
-&lt;style&gt;
-  p { color: pink }
-  b { color: blue }
-&lt;/style&gt;
-</pre>
-<pre class="prettyprint" data-lang="html">
-&lt;!DOCTYPE html>
-&lt;html>
-&lt;head>
-  &lt;title>My Awesome Page&lt;/title>
-&lt;/head>
-&lt;body>
-  &lt;p&gt;Hello world&lt;/p&gt;
-&lt;body>
-&lt;/html>
-</pre>
+});
+		</pre>	
     </article>
   </slide>
-
+  
   <slide>
-    <aside class="note">
-      <section>
-        <ul>
-          <li>Point I wanted to make #1</li>
-          <li>Point I wanted to make #2</li>
-          <li>Point I wanted to make #3</li>
-          <li>Example <a href="#">link</a> in notes.</li>
-        </ul>
-        <p><b>Remember to say this tag line!</b></p>
-      </section>
-    </aside>
     <hgroup>
-      <h2>Slide with Speaker Notes</h2>
+      <h2>View</h2>
     </hgroup>
     <article>
-      <p>Press 'p' to toggle speaker notes.</p>
     </article>
   </slide>
-
+  
   <slide>
-    <aside class="note">
-      <section>
-        <ul>
-          <li>See this amazing link: <a href="http://www.google.com">link</a>.</li>
-        </ul>
-        <p><b>Remember to say this tag line!</b></p>
-      </section>
-    </aside>
     <hgroup>
-      <h2>Presenter Mode</h2>
+      <h2>Controller</h2>
     </hgroup>
     <article>
-      <p>Add <code><a href="?presentme=true" target="_self">?presentme=true</a></code> to the URL to enabled presenter mode.
-      This setting is sticky, meaning refreshing the page will persist presenter
-      mode.</p>
-      <p>Hit <code><a href="?presentme=false" target="_self">?presentme=false</a></code> to disable presenter mode.</p>
     </article>
   </slide>
 
   <slide>
-    <hgroup>
-      <h2>Slide with Image</h2>
+	<hgroup>
+      <h2>Container</h2>
     </hgroup>
-    <article>
-      <img src="images/chart.png" class="reflect" alt="Description" title="Description">
-      <footer class="source">source: place source info here</footer>
-    </article>
   </slide>
-
+  
   <slide>
-    <hgroup>
-      <h2>Slide with Image (Centered horz/vert)</h2>
+	<hgroup>
+      <h2>Ember Testing</h2>
     </hgroup>
-    <article class="flexbox vcenter">
-      <img src="images/barchart.png" alt="Description" title="Description">
-      <footer class="source">source: place source info here</footer>
-    </article>
   </slide>
-
+  
   <slide>
-    <hgroup>
-      <h2>Table Option A</h2>
-      <h3>Subtitle Placeholder</h3>
-    </hgroup>
-    <article>
-      <table>
-        <tr>
-          <th></th><th>Column 1</th><th>Column 2</th><th>Column 3</th><th>Column 4</th>
-        </tr>
-        <tr>
-          <td>Row 1</td><td>placeholder</td><td class="highlight">placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <td>Row 2</td><td>placeholder</td><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <td>Row 3</td><td>placeholder</td><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <td>Row 4</td><td>placeholder</td><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <td>Row 5</td><td>placeholder</td><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-      </table>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Table Option A (Smaller Text)</h2>
-      <h3>Subtitle Placeholder</h3>
-    </hgroup>
-    <article class="smaller">
-      <table>
-        <tr>
-          <th></th><th>Column 1</th><th>Column 2</th><th>Column 3</th><th>Column 4</th>
-        </tr>
-        <tr>
-          <td>Row 1</td><td>placeholder</td><td class="highlight">placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <td>Row 2</td><td>placeholder</td><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <td>Row 3</td><td>placeholder</td><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <td>Row 4</td><td>placeholder</td><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <td>Row 5</td><td>placeholder</td><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-      </table>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Table Option B</h2>
-      <h3>Subtitle Placeholder</h3>
-    </hgroup>
-    <article>
-      <table class="rows">
-        <tr>
-          <th>Header 1</th><td>placeholder</td><td class="highlight">placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <th>Header 2</th><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <th>Header 3</th><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <th>Header 4</th><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <th>Header 5</th><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-      </table>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Slide Styles</h2>
-    </hgroup>
-    <article class="smaller">
-      <div class="columns-2">
-        <ul>
-          <li class="red">class="red"</li>
-          <li class="red2">class="red2"</li>
-          <li class="red3">class="red3"</li>
-          <li class="blue">class="blue"</li>
-          <li class="blue2">class="blue2"</li>
-          <li class="blue3">class="blue3"</li>
-          <li class="green">class="green"</li>
-          <li class="green2">class="green2"</li>
-        </ul>
-        <ul>
-          <li class="green3">class="green3"</li>
-          <li class="yellow">class="yellow"</li>
-          <li class="yellow2">class="yellow2"</li>
-          <li class="yellow3">class="yellow3"</li>
-          <li class="gray">class="gray"</li>
-          <li class="gray2">class="gray2"</li>
-          <li class="gray3">class="gray3"</li>
-          <li class="gray4">class="gray4"</li>
-        </ul>
-      </div>
-      <div class="centered" style="margin-top:2em">
-        I am centered text with a <button>Button</button> and <button disabled>Disabled</button> button.
-      </div>
-    </article>
-  </slide>
-
-  <slide class="segue dark nobackground">
-    <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside>
-    <hgroup class="auto-fadein">
-      <h2>Segue Slide</h2>
-      <h3>Subtitle Placeholder</h3>
+	<hgroup>
+      <h2>Réalisé avec Ember</h2>
     </hgroup>
   </slide>
-
-  <slide class="fill nobackground" style="background-image: url(images/sky.jpg)">
-    <hgroup>
-      <h2 class="white">Full Image (with Optional Header)</h2>
-    </hgroup>
-    <footer class="source white">www.flickr.com/photos/25797459@N06/5438799763/</footer>
-  </slide>
-
-  <slide class="segue dark quote nobackground">
-    <aside class="gdbar right bottom"><img src="images/google_developers_icon_128.png"></aside>
-    <article class="flexbox vleft auto-fadein">
-      <q>
-        This is an example of quote text.
-      </q>
-      <div class="author">
-        Name<br>
-        Company
-      </div>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Slide with Iframe</h2>
-    </hgroup>
-    <article>
-      <iframe data-src="http://www.google.com/doodle4google/resources/history.html"></iframe>
-    </article>
-  </slide>
-
-  <slide>
-    <article>
-      <iframe data-src="http://www.google.com/doodle4google/resources/history.html"></iframe>
-    </article>
-  </slide>
-
+  
   <slide class="thank-you-slide segue nobackground">
     <aside class="gdbar right"><img src="images/google_developers_icon_128.png"></aside>
     <article class="flexbox vleft auto-fadein">
