@@ -67,7 +67,7 @@
       <ul>
         <li>Application</li>
         <li>Run loop</li>
-		<li>Model Object</li>
+		    <li>Model Object</li>
         <li>Template</li>
         <li>MVC*</li>
         <li>Container</li>
@@ -85,10 +85,10 @@
 window.App = Ember.Application.create();
 	  </pre>
       <ul>
-		<li>Crée un namespace</li>
-		<li>Ajoute des event listeners au DOM</li>
-		<li>Insert les templates de l'application dans le DOM</li>
-		<li>Crée un router et commence le routing</li>
+		    <li>Crée un namespace</li>
+		    <li>Ajoute des event listeners au DOM</li>
+		    <li>Insert le template de l'application dans le DOM</li>
+		    <li>Crée un router et commence le routing</li>
       </ul>
     </article>
   </slide>
@@ -100,14 +100,17 @@ window.App = Ember.Application.create();
     <article>
 	  <p><a href="http://talks.erikbryn.com/backburner.js-and-the-ember-run-loop"/>http://talks.erikbryn.com/backburner.js-and-the-ember-run-loop/</a></p>
       <ul>
-        <li>sync -> synchronisation bindings</li>
-        <li>actions -> app actions</li>
-        <li>render -> Ember's DOM-related changes</li>
-        <li>afterRender -> </li>
-        <li>destroy -> object destruction</li>
+        <li>Organiser des operations
+          <ul>
+            <li>Data Bindings</li>
+            <li>Actions</li>
+            <li>UI Rendering</li>
+          </ul>  
+        </li>
+        <li>Regrouper des operations</li>
       </ul>
     </article>
-  </slide>
+  </slide>  
   
   <slide>
     <hgroup>
@@ -127,11 +130,11 @@ window.App = Ember.Application.create();
 	<aside class="note smaller">
       <section>
         <ul>
-          <li>Object.extend for single inheritance (mixins exits as well)</li>
-          <li>Object.create instead of new for instances</li>
-          <li>this._super() calls overridden implementation</li>
-          <li>Object.reopen() to edit class definition</li>
-          <li>Object.reopenClass to modify static members</li>
+          <li>Object.extend pour étendre d'un Objet (mixins existe aussi)</li>
+          <li>Object.create créer une nouvelle instance d'un Objet</li>
+          <li>this._super() fait appel à l'implémentation de la methode surchagée</li>
+          <li>Object.reopen() modifie la définition des instances d'une class</li>
+          <li>Object.reopenClass modifie les methodes static d'une class<a href="http://jsfiddle.net/pangratz666/yWKBF/">+</a></li>
         </ul>
       </section>
     </aside>
@@ -164,11 +167,10 @@ ryan.say("Yes"); // alert "Yes, sir!"
 	<aside class="note">
       <section>
         <ul>
-          <li>object.get("key") and object.set("key", value)</li>
-          <li>Object.create instead of new for instances</li>
-          <li>this._super() calls overridden implementation</li>
-          <li>Object.reopen() to edit class definition</li>
-          <li>Object.reopenClass to modify static members</li>
+          <li>object.get("key") et object.set("key", value)</li>
+          <li>A toujours utliser pour les instances d'Ember.Object</li>
+          <li>Crée dynamiquement des propriétés d'une instances</li>
+          <li>Utiliser .setProperties({key:value}) pour une affectation multiple</li>
         </ul>
       </section>
     </aside>
@@ -179,7 +181,7 @@ ryan.say("Yes"); // alert "Yes, sir!"
 		<pre class="prettyprint" data-lang="javascript">
 var Person = Ember.Object.extend({
 	say: function() {
-		var name = this.get('name');
+		<b>var name = this.get('name');</b>
 		alert(name + "say: " + thing);
 	}
 });
@@ -194,7 +196,7 @@ var ryan = Soldier.create({
 	//name: "CodeOfficier"  On peut aussi!
 });
 
-ryan.set(name, "CodeOfficier");
+<b>ryan.set(name, "CodeOfficier");</b>
 ryan.say("Yes"); // alert "CodeOfficier say: Yes, sir!"
 	  </pre>
     </article>
@@ -204,12 +206,8 @@ ryan.say("Yes"); // alert "CodeOfficier say: Yes, sir!"
 	<aside class="note">
       <section>
         <ul>
-          <li>object.get("key") and object.set("key", value)</li>
-          <li>Object.create instead of new for instances</li>
-          <li>this._super() calls overridden implementation</li>
-          <li>Object.reopen() to edit class definition</li>
-          <li>Object.reopenClass to modify static members</li>
-        </ul>
+          <li>Utiliser pour créer une propriété en fonction d'une autre</li>
+          <li>Surcharge de Function prototype .property() helper</li> 
       </section>
     </aside>
     <hgroup>
@@ -217,65 +215,55 @@ ryan.say("Yes"); // alert "CodeOfficier say: Yes, sir!"
     </hgroup>
     <article class="smaller">
 		<pre class="prettyprint" data-lang="javascript">
-var Person = Ember.Object.extend({
-	say: function() {
-		var name = this.get('name');
-		alert(name + "say: " + thing);
-	}
+App.Person = Ember.Object.extend({
+  // these will be supplied by `create`
+  firstName: null,
+  lastName: null,
+
+  fullName: function() {
+    return this.get('firstName') + ' ' + this.get('lastName');
+  }.property('firstName', 'lastName')
 });
 
-var Soldier = Person.extend({
-	say: function(thing) {
-		this._super(thing + " , sir!");
-	}
+var ironMan = App.Person.create({
+  firstName: "Tony",
+  lastName:  "Stark"
 });
 
-var ryan = Soldier.create({
-	//name: "CodeOfficier"  On peut aussi!
-});
-
-ryan.set(name, "CodeOfficier");
-ryan.say("Yes"); // alert "CodeOfficier say: Yes, sir!"
+ironMan.get('fullName'); // "Tony Stark"
 	  </pre>
     </article>
   </slide>
   
     <slide>
-	<aside class="note">
-      <section>
-        <ul>
-          <li>object.get("key") and object.set("key", value)</li>
-          <li>Object.create instead of new for instances</li>
-          <li>this._super() calls overridden implementation</li>
-          <li>Object.reopen() to edit class definition</li>
-          <li>Object.reopenClass to modify static members</li>
-        </ul>
-      </section>
-    </aside>
     <hgroup>
       <h2>Observers</h2>
     </hgroup>
     <article class="smaller">
 		<pre class="prettyprint" data-lang="javascript">
-var Person = Ember.Object.extend({
-	say: function() {
-		var name = this.get('name');
-		alert(name + "say: " + thing);
-	}
+Person = Ember.Object.extend({
+  // these will be supplied by `create`
+  firstName: null,
+  lastName: null,
+
+  fullName: function() {
+    var firstName = this.get('firstName');
+    var lastName = this.get('lastName');
+
+    return firstName + ' ' + lastName;
+  }.property('firstName', 'lastName'),
+
+  fullNameChanged: function() {
+    // deal with the change
+  }.observes('fullName')
 });
 
-var Soldier = Person.extend({
-	say: function(thing) {
-		this._super(thing + " , sir!");
-	}
+var person = Person.create({
+  firstName: 'Yehuda',
+  lastName: 'Katz'
 });
 
-var ryan = Soldier.create({
-	//name: "CodeOfficier"  On peut aussi!
-});
-
-ryan.set(name, "CodeOfficier");
-ryan.say("Yes"); // alert "CodeOfficier say: Yes, sir!"
+person.set('firstName', 'Brohuda'); // observer will fire
 	  </pre>
     </article>
   </slide>
@@ -722,18 +710,79 @@ App.SongRoute = Ember.Route.extend({
 	<hgroup>
       <h2>Container</h2>
     </hgroup>
+    <article class="smaller">
+      <p>Permet d'organiser les dépendances</p>
+      <pre class="prettyprint" data-lang="javascript">
+export default {
+  name: "session",
+  after: "store",
+  
+  initialize: function(container, application) {
+    session = Session.create();
+    container.register('session:main', session, {  instantiate: false, singleton: true });
+    
+    container.typeInjection('controller', 'session', 'session:main');
+    container.typeInjection('route', 'session', 'session:main');
+    container.typeInjection('component', 'session', 'session:main');
+  }
+};
+
+//...
+//Never, ever use this in application code
+
+App.__.container.__.lookup('session:main'):
+    </pre>  
+    </article>
   </slide>
   
   <slide>
 	<hgroup>
       <h2>Ember Testing</h2>
     </hgroup>
+    <article class="smaller">
+      <pre class="prettyprint" data-lang="html">
+// in order to see the app running inside the QUnit runner
+App.rootElement = '#ember-testing';
+
+// Common test setup
+App.setupForTesting();
+App.injectTestHelpers();
+
+// common QUnit module declaration
+module("Integration tests", {
+  setup: function() {
+    // before each test, ensure the application is ready to run.
+    Ember.run(App, App.advanceReadiness);
+  },
+
+  teardown: function() {
+    // reset the application state between each test
+    App.reset();
+  }
+});
+
+// QUnit test case
+test("/", function() {
+  // async helper telling the application to go to the '/' route
+  visit("/");
+  
+  // helper waiting the application is idle before running the callback
+  andThen(function() {
+    equal(find("h2").text(), "Welcome to Ember.js", "Application header is rendered");
+    equal(find("li").length, 3, "There are three items in the list");
+  });
+});
+      </pre>
+    </article>
   </slide>
   
   <slide>
 	<hgroup>
       <h2>Réalisé avec Ember</h2>
     </hgroup>
+    <article>
+      <p><a >http://mytripset.voyages-sncf.com/#/search/FR_fr</a></p>
+    </article>
   </slide>
   
   <slide class="thank-you-slide segue nobackground">
@@ -756,18 +805,6 @@ App.SongRoute = Ember.Route.extend({
   <slide class="backdrop"></slide>
 
 </slides>
-
-<script>
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
-_gaq.push(['_trackPageview']);
-
-(function() {
-  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-</script>
 
 <!--[if IE]>
   <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
