@@ -23,3 +23,22 @@ slides > slide:not(.nobackground):before {
 .title-slide hgroup p {
 	margin-top: 0px;
 }
+
+.row {
+	margin-bottom: 1em;
+}
+
+.row .thumbnail {
+	display: inline-block;
+}
+
+.row .caption {
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 11px;
+}
+
+.row .caption p {
+	margin: 0px;
+	font-size: large;	
+}
