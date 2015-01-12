@@ -4,6 +4,9 @@
  "dependencies": {
     "express": "~4.7.0"	
  },
+ "scripts":{
+    "start": "node emberShare.js"	
+ }, 
  "engines": {
    "node": "0.10.30",
    "npm": "1.4.21"

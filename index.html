@@ -57,7 +57,7 @@
           <td>Contributeurs Github</td><td>1k</td><td>244</td><td class="highlight">436</td>
         </tr>
          <tr>
-          <td>StackOverflow Questions</td><td>70.4K</td><td>17K</td><td class="highlight">13.2K</td>
+          <td>Questions StackOverflow</td><td>70.4K</td><td>17K</td><td class="highlight">13.2K</td>
         </tr>
       </table>
     </article>
@@ -69,10 +69,11 @@
     </hgroup>
     <article>
       <ul>
-        <li>Ultra complet (tout ce dont vouz auriez besion et là !)</li>
+        <li>Ultra complet</li>
+        <li>Gère la complexité d'application de grande envergure</li>
         <li>Architecture strict pour un code réutilisable et clair</li>
-		<li>Convention plutôt que configuration</li>
-		<li>Hautement productif</li>
+		    <li>Convention plutôt que configuration</li>
+		    <li>Hautement productif</li>
       </ul>
     </article>
   </slide>
@@ -84,10 +85,11 @@
     <article>
       <ul>
         <li>Application</li>
-        <li><del>Run loop</del></li>
-		    <li>Model Object</li>
+        <li>Run loop</li>
+        <li>Model Object</li>
+		    <li>Events</li>
         <li>Template</li>
-        <li>MVC*</li>
+        <li>MVC</li>
         <li>Container</li>
       </ul>
     </article>
@@ -102,12 +104,13 @@
 	  <pre class="prettyprint" data-lang="javascript">
 window.App = Ember.Application.create();
 	  </pre>
-      <ul>
-		    <li>Crée un namespace</li>
-		    <li>Ajoute des event listeners au DOM</li>
-		    <li>Insert le template de l'application dans le DOM</li>
-		    <li>Crée un router et commence le routing</li>
-      </ul>
+    <ul>
+	    <li>Crée un namespace</li>
+	    <li>Ajoute des events listeners au DOM</li>
+	    <li>Insert le template de l'application dans le DOM</li>
+	    <li>Crée un router et commence le routing</li>
+    </ul>
+    <p><a href="http://jsbin.com/yuqaha/2/edit?html,css,js,output">Exemple</a></p>  
     </article>
   </slide>
   
@@ -163,7 +166,7 @@ ryan.say("Yes"); // alert "Yes, sir!"
   </slide>
   
   <slide>
-	<aside class="note">
+	<aside class="note smaller">
       <section>
         <ul>
           <li>object.get("key") et object.set("key", value)</li>
@@ -267,54 +270,14 @@ person.set('firstName', 'Brohuda'); // observer will fire
     </article>
   </slide>
   
-    <slide>
-	<aside class="note">
-      <section>
-        <ul>
-          <li>object.get("key") and object.set("key", value)</li>
-          <li>Object.create instead of new for instances</li>
-          <li>this._super() calls overridden implementation</li>
-          <li>Object.reopen() to edit class definition</li>
-          <li>Object.reopenClass to modify static members</li>
-        </ul>
-      </section>
-    </aside>
-    <hgroup>
-      <h2>Bindings</h2>
-    </hgroup>
-    <article class="smaller">
-		<pre class="prettyprint" data-lang="javascript">
-var Person = Ember.Object.extend({
-	say: function() {
-		var name = this.get('name');
-		alert(name + "say: " + thing);
-	}
-});
-
-var Soldier = Person.extend({
-	say: function(thing) {
-		this._super(thing + " , sir!");
-	}
-});
-
-var ryan = Soldier.create({
-	//name: "CodeOfficier"  On peut aussi!
-});
-
-ryan.set(name, "CodeOfficier");
-ryan.say("Yes"); // alert "CodeOfficier say: Yes, sir!"
-	  </pre>
-    </article>
-  </slide>
-  
-    <slide>
+  <slide>
     <hgroup>
       <h2>Prototype Extensions</h2>
     </hgroup>
     <article>
 		<p>Par default Ember surcharge les prototypes de ces object natif Javascript :</p>
 		<ul>
-			<li>Array</li>
+			<li><a href="http://emberjs.com/api/classes/Ember.NativeArray.html#sts=Ember.NativeArray Class packages/ember-runtime/lib/system/native_array.js:26">Array</a></li>
 			<li>String</li>
 			<li>Function</li>
 		</ul>
@@ -362,104 +325,6 @@ ryan.get(fullName); // James Francis Ryan
     </article>
   </slide>
   
-    <slide>
-    <hgroup>
-      <h2>Template</h2>
-    </hgroup>
-    <article>
-		<ul>
-			<li><a href="http://handlebarsjs.com/">http://handlebarsjs.com/</a></li>
-			<li><a href="http://emblemjs.com/">http://emblemjs.com/ (HAML in JS)</a></li>
-			<li>Bound to a context</li>
-			<li>Contain HTML and {{expression}}</li>
-		</ul>
-    </article>
-  </slide>
-  
-  <slide>
-    <hgroup>
-      <h2>Template</h2>
-    </hgroup>
-    <article>
-		<pre class="prettyprint" data-lang="javascript">
-App.ApplicationController = Ember.Controller.extend({
-  firstName: "Trek",
-  lastName: "Glowacki"
-});
-	  </pre>
-	  <pre class="prettyprint" data-lang="handlebars">
-&lt;p&gt;Hello, &lt;strong&gt;{{firstName}} {{lastName}}&lt;/strong&gt;!&lt;/p&gt;
-	  </pre>
-	  <pre class="prettyprint" data-lang="html">
-&lt;p&gt;Hello, &lt;strong&gt;Trek Glowacki&lt;/strong&gt;!&lt;/p&gt;
-	  </pre>
-    </article>
-  </slide>
-  
-  <slide>
-    <hgroup>
-      <h2>Template</h2>
-    </hgroup>
-    <article class="smaller">
-		<p><a href="http://emberjs.com/guides/templates/conditionals/">http://emberjs.com/guides/templates/conditionals/</a></p>
-		<pre class="prettyprint" data-lang="handlebars">
-{{#if person}}
-  Welcome back, &lt;b&gt;{{person.firstName}} {{person.lastName}}&lt;/b&gt;!
-{{else}}
-  Please log in.
-{{/if}}
-	  </pre>
-	  <p><a href="http://emberjs.com/guides/templates/displaying-a-list-of-items/">http://emberjs.com/guides/templates/displaying-a-list-of-items/</a></p>
-		<pre class="prettyprint" data-lang="handlebars">
-&lt;ul&gt;
-  {{#each people}}
-    &lt;li&gt;Hello, {{name}}!&lt;/li&gt;
-  {{/each}}
-&lt;/ul&gt;
-	  </pre>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Template</h2>
-    </hgroup>
-    <article class="smaller">
-    <p><a href="http://emberjs.com/guides/templates/binding-element-attributes/">http://emberjs.com/guides/templates/binding-element-attributes/</a></p>
-    <pre class="prettyprint" data-lang="handlebars">
-&lt;input type="checkbox" {{bind-attr disabled=isAdministrator}}&gt;
-    </pre>
-    <p>isAdministrator is true</p>
-    <pre class="prettyprint" data-lang="html">
-&lt;input type="checkbox" disabled&gt;
-    </pre>
-    <p>isAdministrator is false</p>
-    <pre class="prettyprint" data-lang="html">
-&lt;input type="checkbox" &gt;
-    </pre>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Template</h2>
-    </hgroup>
-    <article class="smaller">
-    <p><a href="http://emberjs.com/guides/templates/binding-element-class-names/">http://emberjs.com/guides/templates/binding-element-class-names/</a></p>
-    <pre class="prettyprint" data-lang="handlebars">
-&lt;div {{bind-attr class="priority"}}&gt;
-  Warning!
-&lt;/div&gt;
-    </pre>
-    <p>controller's priority property is "p4"</p>
-    <pre class="prettyprint" data-lang="html">
-&lt;div class="p4"&gt;
-  Warning!
-&lt;/div&gt;
-    </pre>
-    </article>
-  </slide>
-  
    <slide>
     <hgroup>
       <h2>Router</h2>
@@ -467,44 +332,17 @@ App.ApplicationController = Ember.Controller.extend({
     <article>
 		<p><a href="http://emberjs.com/guides/routing/"/>http://emberjs.com/guides/routing/</a></p>
 		<ul>
-			<li>Translate a URL into a series of nested templates, each backed by a model</li>
-			<li>Represents Application state as a URL</li>
-			<li>Update the controllers</li>
+			<li>Mets à jour l'affichage des templates, en fonction d'une URL</li>
+			<li>Représente un état de l'application</li>
+			<li>Mets à jour les contrôleurs</li>
 		</ul>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
-      <h2>Router</h2>
-      <h3 class="smaller">Location API => hash / history.pushState / none</h3>
-    </hgroup>
-    <article class="smaller">
-		<pre class="prettyprint" data-lang="javascript">
-/*  /#/posts/new => posts.new route  */	
-App.Router.map(function() {
-  this.resource('posts', function() {
-    this.route('new');
-  });
-});
-
-/*  /posts/new  */
-App.Router.reopen({
-  location: 'history'
-});
-
-/*  none  */
-App.Router.reopen({
-  location: 'none'
-});
-		</pre>	
-    </article>
-  </slide>
-  
-    <slide>
-    <hgroup>
       <h2>Router</h2>	
-	  <h3>Defininig yours route</h3>	
+	  <h3>Définir votre route</h3>	
     </hgroup>
     <article class="even smaller">
 		<p><a href="http://emberjs.com/guides/routing/defining-your-routes/">http://emberjs.com/guides/routing/defining-your-routes/</a></p>
@@ -512,9 +350,6 @@ App.Router.reopen({
 App.Router.map(function() {
   this.resource('post', { path: '/post/:post_id' }, function() {
     this.route('edit');
-    this.resource('comments', function() {
-      this.route('new');
-    });
   });
 });
 </pre>	
@@ -556,27 +391,6 @@ App.Router.map(function() {
           <td><code>App.PostEditRoute</code></td>
           <td><code>post/edit</code></td>
         </tr>
-        <tr>
-          <td>N/A</td>
-          <td><code>comments</code></td>
-          <td><code>App.CommentsController</code></td>
-          <td><code>App.CommentsRoute</code></td>
-          <td><code>comments</code></td>
-        </tr>
-        <tr>
-          <td><code>/post/:post_id/comments</code></td>
-          <td><code>comments.index</code></td>
-          <td><code>App.CommentsIndexController</code></td>
-          <td><code>App.CommentsIndexRoute</code></td>
-          <td><code>comments/index</code></td>
-        </tr>
-        <tr>
-          <td><code>/post/:post_id/comments/new</code></td>
-          <td><code>comments.new</code></td>
-          <td><code>App.CommentsNewController</code></td>
-          <td><code>App.CommentsNewRoute</code></td>
-          <td><code>comments/new</code></td>
-        </tr>
         </tbody>
       </table>
     </article>
@@ -613,8 +427,104 @@ App.PhotoRoute = Ember.Route.extend({
   
   <slide>
     <hgroup>
+      <h2>Template</h2>
+    </hgroup>
+    <article>
+    <ul>
+      <li><a href="http://handlebarsjs.com/">http://handlebarsjs.com/</a></li>
+      <li>Lie un context à un template HTML</li>
+      <li>Contient de l'HTML et des {{expressions}}</li>
+    </ul>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Template</h2>
+    </hgroup>
+    <article>
+    <pre class="prettyprint" data-lang="javascript">
+App.ApplicationController = Ember.Controller.extend({
+  firstName: "Trek",
+  lastName: "Glowacki"
+});
+    </pre>
+    <pre class="prettyprint" data-lang="handlebars">
+&lt;p&gt;Hello, &lt;strong&gt;{{firstName}} {{lastName}}&lt;/strong&gt;!&lt;/p&gt;
+    </pre>
+    <pre class="prettyprint" data-lang="html">
+&lt;p&gt;Hello, &lt;strong&gt;Trek Glowacki&lt;/strong&gt;!&lt;/p&gt;
+    </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Template</h2>
+    </hgroup>
+    <article class="smaller">
+    <p><a href="http://emberjs.com/guides/templates/conditionals/">http://emberjs.com/guides/templates/conditionals/</a></p>
+    <pre class="prettyprint" data-lang="handlebars">
+{{#if person}}
+  Welcome back, &lt;b&gt;{{person.firstName}} {{person.lastName}}&lt;/b&gt;!
+{{else}}
+  Please log in.
+{{/if}}
+    </pre>
+    <p><a href="http://emberjs.com/guides/templates/displaying-a-list-of-items/">http://emberjs.com/guides/templates/displaying-a-list-of-items/</a></p>
+    <pre class="prettyprint" data-lang="handlebars">
+&lt;ul&gt;
+  {{#each people}}
+    &lt;li&gt;Hello, {{name}}!&lt;/li&gt;
+  {{/each}}
+&lt;/ul&gt;
+    </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Template</h2>
+    </hgroup>
+    <article class="smaller">
+    <p><a href="http://emberjs.com/guides/templates/binding-element-attributes/">http://emberjs.com/guides/templates/binding-element-attributes/</a></p>
+    <pre class="prettyprint" data-lang="handlebars">
+&lt;input type="checkbox" {{bind-attr disabled=isAdministrator}}&gt;
+    </pre>
+    <p>isAdministrator = true</p>
+    <pre class="prettyprint" data-lang="html">
+&lt;input type="checkbox" disabled&gt;
+    </pre>
+    <p>isAdministrator = false</p>
+    <pre class="prettyprint" data-lang="html">
+&lt;input type="checkbox" &gt;
+    </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Template</h2>
+    </hgroup>
+    <article class="smaller">
+    <p><a href="http://emberjs.com/guides/templates/binding-element-class-names/">http://emberjs.com/guides/templates/binding-element-class-names/</a></p>
+    <pre class="prettyprint" data-lang="handlebars">
+&lt;div {{bind-attr class="priority"}}&gt;
+  Warning!
+&lt;/div&gt;
+    </pre>
+    <p>La propriété priority du controller = "p4"</p>
+    <pre class="prettyprint" data-lang="html">
+&lt;div class="p4"&gt;
+  Warning!
+&lt;/div&gt;
+    </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
       <h2>View</h2>
-      <h3>Insérer une vue dans un Template</h3>
     </hgroup>
     <article class="smaller">
       <pre class="prettyprint" data-lang="javascript">
@@ -639,40 +549,6 @@ App.InfoView = Ember.View.extend({
   User: {{view.firstName}} {{view.lastName}}
   {{view "info"}}
 &lt;/script&gt;
-      </pre> 
-    </article>
-  </slide>
-  
-  <slide>
-    <hgroup>
-      <h2>View</h2>
-      <h3>Handling Event</h3>
-    </hgroup>
-    <article class="smaller">
-      <pre class="prettyprint" data-lang="javascript">
-App.PlaybackRoute = Ember.Route.extend({
-  actions: {
-    turnItUp: function(level){
-      //This won't be called if it's defined on App.PlaybackController
-    }
-  }
-});
-      </pre> 
-      <pre class="prettyprint" data-lang="javascript">
-App.PlaybackController = Ember.ObjectController.extend({
-  actions: {
-    turnItUp: function(level){
-      //Do your thing
-    }
-  }
-});
-      </pre> 
-      <pre class="prettyprint" data-lang="javascript">
-App.ClickableView = Ember.View.extend({
-  click: function(evt) {
-    this.get('controller').send('turnItUp', 11);
-  }
-});
       </pre> 
     </article>
   </slide>
@@ -702,6 +578,38 @@ App.SongRoute = Ember.Route.extend({
   &lt;strong&gt;Current Volume&lt;/strong&gt;: {{soundVolume}}
 &lt;/p&gt;
     </pre>  
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Event</h2>
+    </hgroup>
+    <article class="smaller">
+      <pre class="prettyprint" data-lang="javascript">
+App.PlaybackRoute = Ember.Route.extend({
+  actions: {
+    turnItUp: function(level){
+      //This won't be called if it's defined on App.PlaybackController
+    }
+  }
+});
+App.PlaybackController = Ember.ObjectController.extend({
+  actions: {
+    turnItUp: function(level){
+      //Do your thing
+    }
+  }
+});
+App.ClickableView = Ember.View.extend({
+  click: function(evt) {
+    this.get('controller').send('turnItUp', 11);
+  }
+});
+      </pre> 
+      <pre class="prettyprint" data-lang="handlebars">
+&lt;button {{action 'turnItUp'}}&gt;+&lt;/button&gt;
+      </pre> 
     </article>
   </slide>
 
@@ -740,28 +648,8 @@ App.__.container.__.lookup('session:main'):
     </hgroup>
     <article class="smaller">
       <pre class="prettyprint" data-lang="html">
-// in order to see the app running inside the QUnit runner
-App.rootElement = '#ember-testing';
-
-// Common test setup
-App.setupForTesting();
-App.injectTestHelpers();
-
-// common QUnit module declaration
-module("Integration tests", {
-  setup: function() {
-    // before each test, ensure the application is ready to run.
-    Ember.run(App, App.advanceReadiness);
-  },
-
-  teardown: function() {
-    // reset the application state between each test
-    App.reset();
-  }
-});
-
 // QUnit test case
-test("/", function() {
+test("index page", function() {
   // async helper telling the application to go to the '/' route
   visit("/");
   
@@ -780,24 +668,15 @@ test("/", function() {
       <h2>Réalisé avec Ember</h2>
     </hgroup>
     <article>
-      <p><a >http://mytripset.voyages-sncf.com/#/search/FR_fr</a></p>
+      <p><a href="http://mytripset.voyages-sncf.com/#/search/FR_fr">http://mytripset.voyages-sncf.com/#/search/FR_fr</a></p>
     </article>
   </slide>
   
   <slide class="thank-you-slide segue nobackground">
-    <aside class="gdbar right"><img src="images/google_developers_icon_128.png"></aside>
     <article class="flexbox vleft auto-fadein">
-      <h2>&lt;Thank You!&gt;</h2>
-      <p>Important contact information goes here.</p>
-    </article>
-    <p class="auto-fadein" data-config-contact>
-      <!-- populated from slide_config.json -->
-    </p>
-  </slide>
-
-  <slide class="logoslide dark nobackground">
-    <article class="flexbox vcenter">
-      <span><img src="images/google_developers_logo_white.png"></span>
+      <h2>Merci !</h2>
+      <p>mail: harry.jumeau@gmail.com</p>
+      <p>github: github.com/hjumeau</p>
     </article>
   </slide>
 
