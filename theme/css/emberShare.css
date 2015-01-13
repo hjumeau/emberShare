@@ -42,3 +42,13 @@ slides > slide:not(.nobackground):before {
 	margin: 0px;
 	font-size: large;	
 }
+
+.left {
+	display: inline-block;
+	vertical-align: top;
+	width: 300px;
+}
+
+.right {
+	display: inline-block;
+}

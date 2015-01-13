@@ -286,10 +286,41 @@ person.set('firstName', 'Brohuda'); // observer will fire
   
   <slide>
     <hgroup>
-      <h2>Framework MVC*</h2>
+      <h2>Framework MVC</h2>
     </hgroup>
-    <article class="flexbox vcenter">
-      <img src="images/ember-sketch.png" alt="Model MVC* Ember" title="MVC*">
+    <article class="smaller">
+      <div class="left">
+        <h3>1) Start</h3>
+        <ul class="build">
+          <li>Ember commence par tradruire URL/Route</li>
+          <li>Charge un model</li>
+          <li>Contextualise les templates</li>
+          <li>Attache les templates au DOM</li>
+        </ul>
+      </div>
+      <div class="right">
+        <img src="images/ember-sketch.png" alt="Model MVC* Ember" title="MVC*">
+      </div>
+      <footer class="source"><a href:"http://www.smashingmagazine.com/2013/11/07/an-in-depth-introduction-to-ember-js"/>source</a></footer>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Framework MVC</h2>
+    </hgroup>
+    <article class="smaller">
+      <div class="left">
+        <h3>2) Runtime</h3>
+        <ul class="build">
+          <li>Ember écoute les évènements utilisateur</li>
+          <li>Transmet les évènements au Controlleur (ou Router) pour mettre à jour le model</li>
+          <li>DOM se mets à jour automatiquement</li>
+        </ul>
+      </div>
+      <div class="right">
+        <img src="images/ember-sketch.png" alt="Model MVC* Ember" title="MVC*">
+      </div>
       <footer class="source"><a href:"http://www.smashingmagazine.com/2013/11/07/an-in-depth-introduction-to-ember-js"/>source</a></footer>
     </article>
   </slide>
@@ -427,6 +458,34 @@ App.PhotoRoute = Ember.Route.extend({
   
   <slide>
     <hgroup>
+      <h2>Controller</h2>
+    </hgroup>
+    <article class="smaller">
+    <p><a href="http://emberjs.com/guides/controllers/representing-a-single-model-with-objectcontroller/">http://emberjs.com/guides/controllers/representing-a-single-model-with-objectcontroller/</a></p>  
+    <pre class="prettyprint" data-lang="javascript">
+App.SongController = Ember.ObjectController.extend({
+  soundVolume: 1
+});
+
+App.SongRoute = Ember.Route.extend({
+  setupController: function(controller, song) {
+    controller.set('model', song);
+  }
+});
+    </pre>  
+    <pre class="prettyprint" data-lang="html">
+&lt;p&gt;
+  &lt;strong&gt;Song&lt;/strong&gt;: {{name}} by {{artist}}
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;strong&gt;Current Volume&lt;/strong&gt;: {{soundVolume}}
+&lt;/p&gt;
+    </pre>  
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
       <h2>Template</h2>
     </hgroup>
     <article>
@@ -555,34 +614,6 @@ App.InfoView = Ember.View.extend({
 
   <slide>
     <hgroup>
-      <h2>Controller</h2>
-    </hgroup>
-    <article class="smaller">
-    <p><a href="http://emberjs.com/guides/controllers/representing-a-single-model-with-objectcontroller/">http://emberjs.com/guides/controllers/representing-a-single-model-with-objectcontroller/</a></p>  
-    <pre class="prettyprint" data-lang="javascript">
-App.SongController = Ember.ObjectController.extend({
-  soundVolume: 1
-});
-
-App.SongRoute = Ember.Route.extend({
-  setupController: function(controller, song) {
-    controller.set('model', song);
-  }
-});
-    </pre>  
-    <pre class="prettyprint" data-lang="html">
-&lt;p&gt;
-  &lt;strong&gt;Song&lt;/strong&gt;: {{name}} by {{artist}}
-&lt;/p&gt;
-&lt;p&gt;
-  &lt;strong&gt;Current Volume&lt;/strong&gt;: {{soundVolume}}
-&lt;/p&gt;
-    </pre>  
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
       <h2>Event</h2>
     </hgroup>
     <article class="smaller">
@@ -630,7 +661,6 @@ export default {
     
     container.typeInjection('controller', 'session', 'session:main');
     container.typeInjection('route', 'session', 'session:main');
-    container.typeInjection('component', 'session', 'session:main');
   }
 };
 
@@ -647,19 +677,7 @@ App.__.container.__.lookup('session:main'):
       <h2>Ember Testing</h2>
     </hgroup>
     <article class="smaller">
-      <pre class="prettyprint" data-lang="html">
-// QUnit test case
-test("index page", function() {
-  // async helper telling the application to go to the '/' route
-  visit("/");
-  
-  // helper waiting the application is idle before running the callback
-  andThen(function() {
-    equal(find("h2").text(), "Welcome to Ember.js", "Application header is rendered");
-    equal(find("li").length, 3, "There are three items in the list");
-  });
-});
-      </pre>
+    <p><a href="http://jsbin.com/wahagi/2/edit?js,output">http://jsbin.com/wahagi/2/edit?js,output</a></p>
     </article>
   </slide>
   
